@@ -1,6 +1,6 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { ethers } from 'ethers'; // ✅ Correct import
+import { Contract, ethers } from 'ethers'; // ✅ Correct import
 import abi from './contract/chai.json';
 import Buy from './components/Buy/Buy';
 import Memo from './components/Memo/Memo';
@@ -10,9 +10,11 @@ function App() {
   const [state, setState] = useState({
     provider: null,
     signer: null,
-    contract: null
+    contract: null,
+   
   });
  const [account ,setAccount] = useState("None")
+ const [balance,setBalance]= useState("0")
   useEffect(() => {
     const connectWallet = async () => {
       const contractAddress = "0xC95a4bB33b180d3f639697d16485Dfc6c9362dE5";
@@ -38,8 +40,9 @@ function App() {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(contractAddress, contractAbi, signer);
-
-        setState({ provider, signer, contract });
+        const balance = await provider.getBalance("0xE9b7Fc2F89eFE7d4ADd3b05284b4dE8ad40a9660")
+      setBalance(balance)
+        setState({ provider, signer, contract});
         setAccount(contract.address)
 
       } catch (error) {
@@ -53,11 +56,12 @@ function App() {
 
 
   
-  }, []);
+  }, [state,balance]);
   console.log(state)
   
   return (
     <>
+    <h1>Total donation recived in Rs: <span style={{color :"blue"}}>{((ethers.utils.formatEther(balance))*502346.83).toFixed(2)}</span> </h1>
      <div style={{
   display: "flex",
   justifyContent: "center",
