@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { ethers } from 'ethers'; // ✅ Correct import
 import abi from './contract/chai.json';
 import Buy from './components/Buy/Buy';
+import Memo from './components/Memo/Memo';
+
 
 function App() {
   const [state, setState] = useState({
@@ -51,6 +53,8 @@ function App() {
   return (
     <>
     <Buy state={state}/>
+    <Memo state={state}/>
+    
     </>
   );
 }
