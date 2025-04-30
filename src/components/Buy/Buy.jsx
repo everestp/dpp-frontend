@@ -64,7 +64,7 @@ const Buy = ({ state }) => {
           onChange={handleChange} 
           required 
         />
-        <button type="submit">Buy Coffee ☕</button>
+        <button type="submit"  disabled={!state.contract}>Pay</button>
       </form>
     </div>
   );
